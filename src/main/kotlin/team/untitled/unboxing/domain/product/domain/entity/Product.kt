@@ -1,4 +1,4 @@
-package team.untitled.chagocchagocbackend.domain.product.domain.entity
+package team.untitled.unboxing.domain.product.domain.entity
 
 import javax.persistence.*
 
