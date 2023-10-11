@@ -1,18 +1,20 @@
 package team.untitled.unboxingBackend.domain.user
 
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
+import team.untitled.unboxingBackend.domain.product.domain.entity.Product
+import javax.persistence.*
 
 @Entity
 class User(
 
-    @Id
+    @Id @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    val id: Long = 0,
 
     val name:String,
 
-    val profileImage:String
+    val profileImage:String,
+
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    val Prodect: List<Product>
 )
