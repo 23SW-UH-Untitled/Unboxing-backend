@@ -1,1 +1,23 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://untitled222.caxyij88yk49.ap-northeast-2.rds.amazonaws.com:3306/untitled?serverTimezone=UTC
+    username: admin
+    password: untitled1234
 
+  logging:
+    level:
+      org:
+        hibernate:
+          SQL: debug
+
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
