@@ -1,5 +1,6 @@
 package team.untitled.unboxingBackend.domain.product.domain.entity
 
+import team.untitled.unboxingBackend.domain.team.Team
 import javax.persistence.*
 
 @Entity
@@ -17,6 +18,9 @@ class Product (
     @Column
     val profile: String,
 
+    @Column
+    val inventory: Int,
+
     @Column(name = "wholesale_price")
     val wholesalePrice: Int,
 
@@ -30,4 +34,8 @@ class Product (
     @OneToMany(cascade = [CascadeType.ALL])
     @JoinColumn(name = "product_id")
     val reataile: List<Retail>,
+
+    @OneToMany
+    @JoinColumn(name = "product_id")
+    val team: List<Team>
 )
