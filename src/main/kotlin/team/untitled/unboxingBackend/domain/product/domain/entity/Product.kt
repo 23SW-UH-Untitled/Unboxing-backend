@@ -1,4 +1,4 @@
-package team.untitled.unboxing.domain.product.domain.entity
+package team.untitled.unboxingBackend.domain.product.domain.entity
 
 import javax.persistence.*
 
@@ -10,6 +10,9 @@ class Product (
 
     @Column
     val name: String,
+
+    @Column
+    val barcode: String,
 
     @Column
     val profile: String,

@@ -1,11 +1,11 @@
-package team.untitled.unboxing.domain.product.domain.entity
+package team.untitled.unboxingBackend.domain.product.domain.entity
 
-import java.util.*
+import java.util.Date
 import javax.persistence.*
 
 @Entity
-class Retail (
-    @Column(name = "retail_id")
+class Wholesale (
+    @Column(name = "wholesale_id")
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long,
 
