@@ -1,10 +1,10 @@
-package team.untitled.chagocchagocbackend
+package team.untitled.unboxingBackend
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class ChagocchagocBackendApplicationTests {
+class UnboxingBackendApplicationTests {
 
     @Test
     fun contextLoads() {
