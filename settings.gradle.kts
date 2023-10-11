@@ -1,1 +1,1 @@
-rootProject.name = "chagocchagoc-backend"
+rootProject.name = "unboxingBackend"

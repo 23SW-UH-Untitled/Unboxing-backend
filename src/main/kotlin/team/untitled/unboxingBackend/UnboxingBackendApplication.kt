@@ -1,11 +1,11 @@
-package team.untitled.chagocchagocbackend
+package team.untitled.unboxingBackend
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class ChagocchagocBackendApplication
+class UnBoxingBackendApplication
 
 fun main(args: Array<String>) {
-    runApplication<ChagocchagocBackendApplication>(*args)
+    runApplication<UnBoxingBackendApplication>(*args)
 }
