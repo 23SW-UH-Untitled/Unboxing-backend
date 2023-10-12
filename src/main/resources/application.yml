@@ -5,6 +5,19 @@ spring:
     username: admin
     password: untitled1234
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_SECRET_KEY}
+            redirect-uri: ${GOOGLE_REDIRECT_URL}
+            scope:
+              - profile
+              - email
+
+
   logging:
     level:
       org:
@@ -21,3 +34,11 @@ spring:
       hibernate:
         format_sql: true
         show_sql: true
+
+auth:
+  jwt:
+    header: ${HEADER}
+    secret: ${SECRET}
+    accessExp: ${ACCESS-EXP}
+    refreshExp: ${REFRESH-EXP}
+    prefix: ${PREFIX}
