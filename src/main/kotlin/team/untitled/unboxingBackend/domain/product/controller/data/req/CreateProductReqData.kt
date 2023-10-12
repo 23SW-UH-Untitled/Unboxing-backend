@@ -7,5 +7,5 @@ data class CreateProductReqData(
     val barcode: String,
     val wholesalePrice: Int,
     val retailPrice: Int,
-    val profile: MultipartFile
+    val profile: String
 )

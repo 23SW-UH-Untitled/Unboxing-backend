@@ -1,44 +1,53 @@
 package team.untitled.unboxingBackend.global.s3
 
 import com.amazonaws.services.s3.AmazonS3
-import com.amazonaws.services.s3.internal.Mimetypes
-import com.amazonaws.services.s3.model.CannedAccessControlList
+import com.amazonaws.services.s3.AmazonS3Client
 import com.amazonaws.services.s3.model.ObjectMetadata
 import com.amazonaws.services.s3.model.PutObjectRequest
 import org.springframework.stereotype.Component
-import java.io.File
+import org.springframework.stereotype.Service
+import org.springframework.web.multipart.MultipartFile
+import team.untitled.unboxingBackend.global.exception.UntitledException
 import java.io.IOException
 import java.util.*
 
-@Component
+@Service
 class S3Util(
-    private val s3Properties: S3Properties,
-    private val amazonS3: AmazonS3
+    val s3Properties: S3Properties,
+    val amazonS3Client: AmazonS3Client
 ){
-    fun uploadFile(file: File): String {
-        val fileName = "${UUID.randomUUID()}.${file.extension}"
+    fun uploadFile(reqImg: MultipartFile): String {
+        val fileName:String = createFile(reqImg.originalFilename)
 
-        return inputS3(file, fileName)
-            .run { getResourceUrl(fileName = fileName) }
+        return inputS3(reqImg, fileName)
+            .run { getResourceUrl(fileName) }
     }
 
-    private fun inputS3(file: File, fileName: String) {
-        val objectMetadata = ObjectMetadata()
-        objectMetadata.contentLength = file.length()
-        objectMetadata.contentType = Mimetypes.getInstance().getMimetype(file)
+    private fun createFile(image: String?): String {
+        return UUID.randomUUID().toString() + "-" + image
+    }
+
+    private fun inputS3(file: MultipartFile, fileName: String):String {
+
         try {
-            amazonS3.putObject(
-                PutObjectRequest(s3Properties.s3Bucket, fileName, file.inputStream(), objectMetadata)
-                    .withCannedAcl(
-                        CannedAccessControlList.PublicRead
-                    )
+            val request = PutObjectRequest(
+                s3Properties.bucket, fileName, file.inputStream, getMetadata(file)
             )
-            file.delete()
+            amazonS3Client.putObject(request)
         } catch (e: IOException) {
-            throw e
+            throw UntitledException(400,"Invalid Image")
         }
+
+        return amazonS3Client.getUrl(s3Properties.bucket, fileName).toString()
+
+    }
+    fun getMetadata(file: MultipartFile): ObjectMetadata {
+        val metadata = ObjectMetadata()
+        metadata.contentLength = file.size
+        metadata.contentType = file.contentType
+        return metadata
     }
 
     fun getResourceUrl(fileName: String): String =
-        amazonS3.getUrl(s3Properties.s3Bucket, fileName).toString()
+        amazonS3Client.getUrl(s3Properties.bucket, fileName).toString()
 }
