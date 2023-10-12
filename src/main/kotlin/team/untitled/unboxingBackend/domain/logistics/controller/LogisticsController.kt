@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import team.untitled.unboxingBackend.domain.product.controller.data.req.QueryProductByDateReqData
@@ -18,17 +19,17 @@ class LogisticsController (
     private val productService: ProductService
 ){
     @GetMapping
-    fun queryLogisticsByDate(queryProductByDateReqData: QueryProductByDateReqData): ResponseEntity<List<QueryProductByDateResDate>> =
+    fun queryLogisticsByDate(@RequestBody queryProductByDateReqData: QueryProductByDateReqData): ResponseEntity<List<QueryProductByDateResDate>> =
         productService.queryProductByDateService(queryProductByDateReqData)
             .let { ResponseEntity.ok(it) }
 
     @PatchMapping("/wholesale")
-    fun updateWholesale(wholesaleProductReqData: WholesaleProductReqData): ResponseEntity<Void> =
+    fun updateWholesale(@RequestBody wholesaleProductReqData: WholesaleProductReqData): ResponseEntity<Void> =
         productService.wholesaleProductService(wholesaleProductReqData)
             .let { ResponseEntity.status(HttpStatus.OK).build() }
 
     @PatchMapping("/retail")
-    fun updateRetail(retailProductReqData: RetailProductReqData): ResponseEntity<Void> =
+    fun updateRetail(@RequestBody retailProductReqData: RetailProductReqData): ResponseEntity<Void> =
         productService.retailProductService(retailProductReqData)
             .let { ResponseEntity.status(HttpStatus.OK).build() }
 

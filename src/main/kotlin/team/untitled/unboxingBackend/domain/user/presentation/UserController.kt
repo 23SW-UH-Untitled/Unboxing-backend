@@ -9,12 +9,12 @@ import team.untitled.unboxingBackend.global.utils.SecurityUtils
 
 @RestController
 @RequestMapping("/user")
-class UserController(
-) {
+class UserController {
     @GetMapping("me")
     fun findMyInfo():UserRes{
         val user: User = SecurityUtils.getUser()
         return UserRes(user.id,user.name,user.email,user.profileImage)
     }
+
 
 }

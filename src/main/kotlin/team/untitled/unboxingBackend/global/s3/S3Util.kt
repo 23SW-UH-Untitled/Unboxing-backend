@@ -35,7 +35,7 @@ class S3Util(
             )
             file.delete()
         } catch (e: IOException) {
-            throw RuntimeException()
+            throw e
         }
     }
 

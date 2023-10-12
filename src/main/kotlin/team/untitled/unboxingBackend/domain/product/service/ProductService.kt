@@ -15,6 +15,7 @@ import team.untitled.unboxingBackend.domain.user.User
 import team.untitled.unboxingBackend.domain.user.repo.UserRepo
 import team.untitled.unboxingBackend.global.exception.UntitledException
 import team.untitled.unboxingBackend.global.s3.S3Util
+import java.io.File
 import java.time.LocalDate
 import java.time.ZoneId
 
@@ -27,11 +28,13 @@ class ProductService (
     ){
     fun createProductService(createProductReqData: CreateProductReqData){
         val user: User = queryCurrentUser()
+        val file = File(createProductReqData.profile.originalFilename ?: throw UntitledException(400, "파일이 올바르지 않아요"))
+        createProductReqData.profile.transferTo(file)
         val product = Product(
             0,
             createProductReqData.name,
             createProductReqData.barcode,
-            s3Util.uploadFile(createProductReqData.profile),
+            s3Util.uploadFile(file),
             0,
             createProductReqData.wholesalePrice,
             createProductReqData.retailPrice,
