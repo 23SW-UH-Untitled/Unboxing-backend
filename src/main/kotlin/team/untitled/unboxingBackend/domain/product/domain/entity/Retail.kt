@@ -1,5 +1,6 @@
 package team.untitled.unboxingBackend.domain.product.domain.entity
 
+import java.time.LocalDate
 import java.util.*
 import javax.persistence.*
 
@@ -11,7 +12,7 @@ class Retail (
 
     @Column
     @Temporal(TemporalType.DATE)
-    val data: Date,
+    val data: LocalDate,
 
     @Column
     val count: Int

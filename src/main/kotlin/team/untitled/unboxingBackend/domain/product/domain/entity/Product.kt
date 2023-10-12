@@ -1,4 +1,5 @@
 package team.untitled.unboxingBackend.domain.product.domain.entity
+import team.untitled.unboxingBackend.domain.user.User
 import javax.persistence.*
 
 @Entity
@@ -17,7 +18,7 @@ class Product (
     val profile: String,
 
     @Column
-    val inventory: Int,
+    var inventory: Int,
 
     @Column(name = "wholesale_price")
     val wholesalePrice: Int,
@@ -27,9 +28,13 @@ class Product (
 
     @OneToMany(cascade = [CascadeType.ALL])
     @JoinColumn(name = "product_id")
-    val wholesale: List<Wholesale>,
+    val wholesale: MutableList<Wholesale> = mutableListOf(),
 
     @OneToMany(cascade = [CascadeType.ALL])
     @JoinColumn(name = "product_id")
-    val reataile: List<Retail>
+    val reataile: MutableList<Retail> = mutableListOf(),
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    val user: User
 )

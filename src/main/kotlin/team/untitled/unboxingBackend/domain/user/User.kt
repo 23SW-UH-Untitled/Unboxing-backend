@@ -16,5 +16,5 @@ class User(
 
     @OneToMany
     @JoinColumn(name = "user_id")
-    val Prodect: List<Product>
+    val Product: MutableList<Product>
 )

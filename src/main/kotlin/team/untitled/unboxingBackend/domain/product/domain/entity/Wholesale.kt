@@ -1,6 +1,6 @@
 package team.untitled.unboxingBackend.domain.product.domain.entity
 
-import java.util.Date
+import java.time.LocalDate
 import javax.persistence.*
 
 @Entity
@@ -11,7 +11,7 @@ class Wholesale (
 
     @Column
     @Temporal(TemporalType.DATE)
-    val data: Date,
+    val data: LocalDate,
 
     @Column
     val count: Int
