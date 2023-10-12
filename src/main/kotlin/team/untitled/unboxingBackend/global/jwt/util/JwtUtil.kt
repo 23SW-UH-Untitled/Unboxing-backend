@@ -17,11 +17,11 @@ class JwtUtil(
 ) {
 
     fun resolveToken(request: HttpServletRequest): String? {
-        val bearer = request.getHeader(jwtProperties.header)
+        val bearer:String? = request.getHeader(jwtProperties.header)
         return parseToken(bearer)
     }
-    fun parseToken(bToken:String):String? {
-        if(bToken.isBlank()){
+    fun parseToken(bToken:String?):String? {
+        if(!bToken.isNullOrBlank()){
            return bToken.replace("Bearer","").trim()
         }
         return null
