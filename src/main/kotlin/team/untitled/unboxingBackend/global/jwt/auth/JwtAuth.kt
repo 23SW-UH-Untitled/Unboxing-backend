@@ -19,7 +19,7 @@ class JwtAuth(
             throw UntitledException(401,"Invalid Jwt")
         }
         val userDetails: UserDetails =
-            authDetailService.loadByUsername(claims["body"].toString())
+            authDetailService.loadByUsername(claims["id"] as Long)
         return UsernamePasswordAuthenticationToken(userDetails, "", userDetails.authorities)
     }
 
