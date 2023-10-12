@@ -7,10 +7,11 @@ import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import team.untitled.unboxingBackend.domain.product.controller.data.req.QueryProductByDateReqData
+import team.untitled.unboxingBackend.domain.product.controller.data.req.QueryByDateReqData
 import team.untitled.unboxingBackend.domain.product.controller.data.req.RetailProductReqData
 import team.untitled.unboxingBackend.domain.product.controller.data.req.WholesaleProductReqData
-import team.untitled.unboxingBackend.domain.product.controller.data.res.QueryProductByDateResDate
+import team.untitled.unboxingBackend.domain.product.controller.data.res.QueryLogisticsByDateResDate
+import team.untitled.unboxingBackend.domain.product.controller.data.res.QueryPriceByDateResDate
 import team.untitled.unboxingBackend.domain.product.service.ProductService
 
 @RestController
@@ -19,8 +20,12 @@ class LogisticsController (
     private val productService: ProductService
 ){
     @GetMapping
-    fun queryLogisticsByDate(@RequestBody queryProductByDateReqData: QueryProductByDateReqData): ResponseEntity<List<QueryProductByDateResDate>> =
-        productService.queryProductByDateService(queryProductByDateReqData)
+    fun queryLogisticsByDate(@RequestBody queryByDateReqData: QueryByDateReqData): ResponseEntity<QueryLogisticsByDateResDate> =
+        productService.queryLogisticsByDateService(queryByDateReqData)
+            .let { ResponseEntity.ok(it) }
+    @GetMapping("/price")
+    fun queryPriceByDate(@RequestBody queryByDateReqData: QueryByDateReqData): ResponseEntity<QueryPriceByDateResDate> =
+        productService.queryPriceByDateService(queryByDateReqData)
             .let { ResponseEntity.ok(it) }
 
     @PatchMapping("/wholesale")

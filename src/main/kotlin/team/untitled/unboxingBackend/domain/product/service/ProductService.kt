@@ -6,23 +6,22 @@ import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
 import team.untitled.unboxingBackend.domain.product.controller.data.req.*
 import team.untitled.unboxingBackend.domain.product.controller.data.res.QueryDetailProductResData
-import team.untitled.unboxingBackend.domain.product.controller.data.res.QueryProductByDateResDate
+import team.untitled.unboxingBackend.domain.product.controller.data.res.QueryLogisticsByDateResDate
+import team.untitled.unboxingBackend.domain.product.controller.data.res.QueryPriceByDateResDate
 import team.untitled.unboxingBackend.domain.product.controller.data.res.QueryProductListResData
 import team.untitled.unboxingBackend.domain.product.domain.entity.Product
+import team.untitled.unboxingBackend.domain.product.domain.entity.Retail
 import team.untitled.unboxingBackend.domain.product.domain.entity.Wholesale
 import team.untitled.unboxingBackend.domain.product.domain.repository.ProductRepository
 import team.untitled.unboxingBackend.domain.user.User
 import team.untitled.unboxingBackend.domain.user.repo.UserRepo
 import team.untitled.unboxingBackend.global.exception.UntitledException
-import team.untitled.unboxingBackend.global.s3.S3Util
-import java.io.File
 import java.time.LocalDate
 import java.time.ZoneId
 
 
 @Service
 class ProductService (
-    private val s3Util: S3Util,
     private val productRepository: ProductRepository,
     private val userRepository: UserRepo
     ){
@@ -67,36 +66,45 @@ class ProductService (
 
     fun retailProductService(retailProductReqData: RetailProductReqData){
         val product = productRepository.findById(retailProductReqData.id).get()
-        product.wholesale.add(Wholesale(
+        product.retail.add(Retail(
             0,
             LocalDate.now(ZoneId.of("Asia/Seoul")),
             retailProductReqData.count
-        ))
+        )
+        )
         product.inventory -= retailProductReqData.count
         productRepository.save(product)
     }
 
-    fun queryProductByDateService(queryProductListReqData: QueryProductByDateReqData): List<QueryProductByDateResDate>{
+    fun queryLogisticsByDateService(queryByDateReqData: QueryByDateReqData): QueryLogisticsByDateResDate{
         val user: User = queryCurrentUser()
         val product = productRepository.findByUser(user)
 
-        val resList: MutableList<QueryProductByDateResDate> = mutableListOf()
+        var retail = 0
+        var wholesale = 0
+        var inventory = 0
+
+        val queryLogisticsByDateResDate = QueryLogisticsByDateResDate()
 
         product.map {
             var retailCount = 0
             var wholesaleCount = 0
 
-            it.retail.filter { re -> re.data == queryProductListReqData.date }
+            inventory += it.inventory
+
+            it.retail.filter { re -> re.data == queryByDateReqData.date }
                 .map { re ->
-                    retailCount+=re.count
+                    retailCount += re.count
+                    retail += re.count
                 }
-            it.wholesale.filter { wh -> wh.data == queryProductListReqData.date }
+            it.wholesale.filter { wh -> wh.data == queryByDateReqData.date }
                 .map { wh ->
                     wholesaleCount+=wh.count
+                    wholesale+=wh.count
                 }
 
-            resList.add(
-                QueryProductByDateResDate(
+            queryLogisticsByDateResDate.product.add(
+                QueryLogisticsByDateResDate.Product(
                     wholesaleCount,
                     retailCount,
                     it.name,
@@ -105,7 +113,53 @@ class ProductService (
             )
         }
 
-        return resList.toList()
+        queryLogisticsByDateResDate.inventory = inventory
+        queryLogisticsByDateResDate.wholesaleCount = wholesale
+        queryLogisticsByDateResDate.retailCount = retail
+
+        return queryLogisticsByDateResDate
+    }
+
+    fun queryPriceByDateService(queryByDateReqData: QueryByDateReqData): QueryPriceByDateResDate {
+        val user: User = queryCurrentUser()
+        val product = productRepository.findByUser(user)
+
+        var retail = 0
+        var wholesale = 0
+
+        val queryPriceByDateResDate = QueryPriceByDateResDate()
+
+        product.map {
+
+            var retailPrice = 0
+            var wholesalePrice = 0
+
+            it.retail.filter { re -> re.data == queryByDateReqData.date }
+                .map { re ->
+                    retailPrice += re.count * it.retailPrice
+                    retail += re.count * it.retailPrice
+                }
+            it.wholesale.filter { wh -> wh.data == queryByDateReqData.date }
+                .map { wh ->
+                    wholesalePrice += wh.count * it.wholesalePrice
+                    wholesale+=wh.count * it.wholesalePrice
+                }
+
+            queryPriceByDateResDate.product.add(
+                QueryPriceByDateResDate.Product(
+                    wholesalePrice,
+                    retailPrice,
+                    it.name,
+                    it.profile
+                )
+            )
+        }
+
+        queryPriceByDateResDate.price = retail - wholesale
+        queryPriceByDateResDate.wholesalePrice = wholesale
+        queryPriceByDateResDate.retailPrice = retail
+
+        return queryPriceByDateResDate
     }
 
     fun queryDetailProductService(queryDetailProductReqData: QueryDetailProductReqData): QueryDetailProductResData {

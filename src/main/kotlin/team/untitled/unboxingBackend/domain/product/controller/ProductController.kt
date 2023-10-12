@@ -25,7 +25,7 @@ class ProductController (
             .let { ResponseEntity.ok(it) }
 
     @PostMapping
-    fun createProduct(createProductReqData: CreateProductReqData): ResponseEntity<Void> =
+    fun createProduct(@RequestBody createProductReqData: CreateProductReqData): ResponseEntity<Void> =
         productService.createProductService(createProductReqData)
             .let { ResponseEntity.status(HttpStatus.CREATED).build() }
 
