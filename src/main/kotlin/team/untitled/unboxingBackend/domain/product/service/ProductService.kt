@@ -10,20 +10,18 @@ import team.untitled.unboxingBackend.domain.product.controller.data.res.QueryLog
 import team.untitled.unboxingBackend.domain.product.controller.data.res.QueryPriceByDateResDate
 import team.untitled.unboxingBackend.domain.product.controller.data.res.QueryProductListResData
 import team.untitled.unboxingBackend.domain.product.domain.entity.Product
+import team.untitled.unboxingBackend.domain.product.domain.entity.Retail
 import team.untitled.unboxingBackend.domain.product.domain.entity.Wholesale
 import team.untitled.unboxingBackend.domain.product.domain.repository.ProductRepository
 import team.untitled.unboxingBackend.domain.user.User
 import team.untitled.unboxingBackend.domain.user.repo.UserRepo
 import team.untitled.unboxingBackend.global.exception.UntitledException
-import team.untitled.unboxingBackend.global.s3.S3Util
-import java.io.File
 import java.time.LocalDate
 import java.time.ZoneId
 
 
 @Service
 class ProductService (
-    private val s3Util: S3Util,
     private val productRepository: ProductRepository,
     private val userRepository: UserRepo
     ){
@@ -68,11 +66,12 @@ class ProductService (
 
     fun retailProductService(retailProductReqData: RetailProductReqData){
         val product = productRepository.findById(retailProductReqData.id).get()
-        product.wholesale.add(Wholesale(
+        product.retail.add(Retail(
             0,
             LocalDate.now(ZoneId.of("Asia/Seoul")),
             retailProductReqData.count
-        ))
+        )
+        )
         product.inventory -= retailProductReqData.count
         productRepository.save(product)
     }
