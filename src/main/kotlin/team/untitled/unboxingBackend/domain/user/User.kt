@@ -1,18 +1,15 @@
 package team.untitled.unboxingBackend.domain.user
 
-import org.springframework.security.core.authority.SimpleGrantedAuthority
+import team.untitled.unboxingBackend.domain.product.domain.entity.Product
 import team.untitled.unboxingBackend.domain.user.authority.Authority
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity
 class User(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null,
+    val id: Long = 0,
 
     var name:String,
 
@@ -20,7 +17,10 @@ class User(
 
     val authority: Authority,
 
-    var profileImage:String
+    var profileImage:String,
+
+    @OneToMany(mappedBy = "user")
+    val Product: MutableList<Product> = mutableListOf()
 ) {
     fun update(name: String, picture: String): User {
         this.name = name

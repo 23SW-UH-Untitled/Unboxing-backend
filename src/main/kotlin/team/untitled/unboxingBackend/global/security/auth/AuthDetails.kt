@@ -12,7 +12,7 @@ class AuthDetails(
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         return Collections.singletonList(
             SimpleGrantedAuthority(user.authority.name)
-        );
+        )
     }
 
     override fun getPassword(): String? {

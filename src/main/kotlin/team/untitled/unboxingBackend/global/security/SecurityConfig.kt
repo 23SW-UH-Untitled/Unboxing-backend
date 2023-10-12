@@ -22,21 +22,21 @@ class SecurityConfig(
     val jwtUtil: JwtUtil
 ) {
     @Bean
-    protected fun filterChain(http: HttpSecurity): SecurityFilterChain =
-        http.cors(Customizer.withDefaults())
-            .csrf().disable()
-            .httpBasic().disable()
-            .formLogin().disable()
-            .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .authorizeRequests()
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .anyRequest().permitAll()
-            .and()
-            .apply(FilterConfig(jwtUtil, jwtAuth))
-            .and()
-            .build()
+    protected fun filterChain(http: HttpSecurity): SecurityFilterChain = http
+        .cors(Customizer.withDefaults())
+        .csrf().disable()
+        .httpBasic().disable()
+        .formLogin().disable()
+        .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+        .authorizeRequests()
+            .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+            .anyRequest().permitAll()
+        .and()
+        .apply(FilterConfig(jwtUtil, jwtAuth))
+        .and()
+        .build()
 
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource {

@@ -32,6 +32,22 @@ spring:
         format_sql: true
         show_sql: true
 
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+cloud:
+  aws:
+    s3:
+      bucket: untitled
+    credentials:
+      access-key: 8W8AxIpQ8lB9P36oq4e1zIXHO5crywzvnTbvrAB2
+      secret-key: AKIAR7VGIZN5TESM5FER
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
 auth:
   jwt:
     header: Authorization
