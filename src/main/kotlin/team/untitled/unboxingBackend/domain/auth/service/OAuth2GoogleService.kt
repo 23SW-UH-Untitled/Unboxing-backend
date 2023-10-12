@@ -22,7 +22,7 @@ class OAuth2GoogleService(
     fun execute(token: String): TokenResponseDto {
         val userInfo: GoogleInfoResponseDto = googleInfoClient.getUserInfo(token)
         val user: User = saveOrUpdate(userInfo)
-        return jwtProvider.generateToken(user.id!!, user.authority.toString())
+        return jwtProvider.generateToken(user.id, user.authority.toString())
     }
 
     private fun saveOrUpdate(response: GoogleInfoResponseDto): User {
@@ -34,7 +34,7 @@ class OAuth2GoogleService(
                     name = response.name,
                     authority = Authority.USER,
                     profileImage = response.picture
-                    )
+                )
             )
         }
         return user.get().update(response.name,response.picture)

@@ -14,12 +14,12 @@ class JwtAuth(
     val authDetailService: AuthDetailService
 ) {
     fun authentication(token: String): UsernamePasswordAuthenticationToken {
-        val claims: Claims = jwtUtil.getJwt(token).getBody()
+        val claims: Claims = jwtUtil.getJwt(token).body
         if (isNotAccessToken(token)) {
             throw UntitledException(401,"Invalid Jwt")
         }
         val userDetails: UserDetails =
-            authDetailService.loadByUsername(claims["id"] as Long)
+            authDetailService.loadByUsername(claims["id"].toString().toLong())
         return UsernamePasswordAuthenticationToken(userDetails, "", userDetails.authorities)
     }
 
@@ -27,7 +27,7 @@ class JwtAuth(
         if (token.isEmpty()) {
             throw UntitledException(401,"Invalid Jwt")
         }
-        val role: String = jwtUtil.getJwt(token).getHeader().get("type").toString()
+        val role: String = jwtUtil.getJwt(token).header["type"].toString()
         return role != "access_token"
     }
 }
