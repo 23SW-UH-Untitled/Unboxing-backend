@@ -1,7 +1,9 @@
 package team.untitled.unboxingBackend
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.boot.runApplication
+import org.springframework.cloud.openfeign.EnableFeignClients
 
 @SpringBootApplication(
     exclude = [
@@ -10,6 +12,8 @@ import org.springframework.boot.runApplication
         org.springframework.cloud.aws.autoconfigure.context.ContextRegionProviderAutoConfiguration::class
     ]
 )
+@ConfigurationPropertiesScan
+@EnableFeignClients
 class UnBoxingBackendApplication
 
 fun main(args: Array<String>) {

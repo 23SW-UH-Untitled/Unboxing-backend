@@ -24,12 +24,13 @@ class ProductController (
 
     @GetMapping("/detail")
     fun queryDetailProduct(queryDetailProductReqData: QueryDetailProductReqData): ResponseEntity<QueryDetailProductResData> =
-        productService.queryDetailProdectService(queryDetailProductReqData)
+        productService.queryDetailProductService(queryDetailProductReqData)
             .let { ResponseEntity.ok(it) }
 
     @PostMapping
     fun createProduct(createProductReqData: CreateProductReqData): ResponseEntity<Void> =
         productService.createProductService(createProductReqData)
             .let { ResponseEntity.status(HttpStatus.CREATED).build() }
+
 
 }
