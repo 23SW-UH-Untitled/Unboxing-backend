@@ -44,8 +44,8 @@ cloud:
     s3:
       bucket: untitled
     credentials:
-      access-key: 8W8AxIpQ8lB9P36oq4e1zIXHO5crywzvnTbvrAB2
-      secret-key: AKIAR7VGIZN5TESM5FER
+      access-key: AKIAR7VGIZN5TESM5FER
+      secret-key: 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
     region:
       static: ap-northeast-2
     stack:
