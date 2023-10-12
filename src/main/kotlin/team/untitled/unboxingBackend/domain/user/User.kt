@@ -9,7 +9,7 @@ class User(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null,
+    val id: Long = 0,
 
     var name:String,
 
@@ -19,8 +19,7 @@ class User(
 
     var profileImage:String,
 
-    @OneToMany
-    @JoinColumn
+    @OneToMany(mappedBy = "user")
     val Product: MutableList<Product> = mutableListOf()
 ) {
     fun update(name: String, picture: String): User {

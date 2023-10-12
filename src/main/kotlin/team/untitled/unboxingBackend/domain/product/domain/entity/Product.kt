@@ -26,14 +26,11 @@ class Product (
     val retailPrice: Int,
 
     @OneToMany(cascade = [CascadeType.ALL])
-    @JoinColumn
     val wholesale: MutableList<Wholesale> = mutableListOf(),
 
     @OneToMany(cascade = [CascadeType.ALL])
-    @JoinColumn
     val retail: MutableList<Retail> = mutableListOf(),
 
-    @ManyToOne
-    @JoinColumn
+    @ManyToOne(fetch = FetchType.EAGER)
     val user: User
 )
