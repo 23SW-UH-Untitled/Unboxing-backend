@@ -33,6 +33,7 @@ dependencies {
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.2")
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
     implementation("io.github.openfeign:feign-okhttp")
+    implementation ("org.springdoc:springdoc-openapi-ui:1.6.6")
 
     runtimeOnly("com.mysql:mysql-connector-j")
 

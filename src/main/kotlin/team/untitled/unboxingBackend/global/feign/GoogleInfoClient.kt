@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import team.untitled.unboxingBackend.global.feign.dto.response.GoogleInfoResponseDto
 
-@FeignClient(name = "googleInfoClient", url = "https://www.googleapis.com/oauth2/v1/userinfo")
+@FeignClient(name = "googleInfoClient", url = "https://oauth2.googleapis.com/tokeninfo")
 interface GoogleInfoClient {
-    @GetMapping("?access_token={TOKEN}")
+    @GetMapping("?id_token={TOKEN}")
     fun getUserInfo(@PathVariable("TOKEN") token: String): GoogleInfoResponseDto
 }

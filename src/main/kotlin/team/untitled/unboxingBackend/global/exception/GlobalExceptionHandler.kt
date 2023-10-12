@@ -25,6 +25,7 @@ class GlobalExceptionHandler {
     @ExceptionHandler(ConstraintViolationException::class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     fun handleConstraintViolation(e: ConstraintViolationException): ResponseEntity<*> {
+        println(e.message)
         val errorMap: MutableMap<String, String> = HashMap()
         for (violation in e.getConstraintViolations()) {
             errorMap[violation.propertyPath.toString()] = violation.message
@@ -34,6 +35,9 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception::class)
     fun handleServerException(ex: Exception?): ResponseEntity<ExceptionResponse> {
+        if (ex != null) {
+            println(ex.message)
+        }
         return ResponseEntity<ExceptionResponse>(
             ExceptionResponse(
                 500, "Internal Server Error"

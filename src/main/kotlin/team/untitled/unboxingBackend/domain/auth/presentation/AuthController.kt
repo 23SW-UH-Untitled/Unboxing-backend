@@ -8,7 +8,7 @@ import team.untitled.unboxingBackend.global.jwt.dto.TokenResponseDto
 import javax.validation.constraints.NotBlank
 
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/auth")
 class AuthController(
     private val googleService: OAuth2GoogleService,
     private val refreshTokenService: RefreshTokenService
@@ -17,10 +17,11 @@ class AuthController(
     @PostMapping("/google")
     fun loginOfGoogle(@RequestParam(name = "token") token: String?): TokenResponseDto {
         if(token == null) throw UntitledException(400,"No token")
+        val a = googleService.execute(token)
         return googleService.execute(token)
     }
 
-    @PutMapping
+    @PutMapping("refreshToken")
     fun refreshToken(@RequestBody refreshToken: @NotBlank String?): TokenResponseDto {
         if(refreshToken == null) throw UntitledException(400,"No Code")
         return refreshTokenService.execute(refreshToken)

@@ -1,18 +1,13 @@
 package team.untitled.unboxingBackend
 
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.boot.runApplication
 import org.springframework.cloud.openfeign.EnableFeignClients
 import java.util.*
 
-@SpringBootApplication(
-    exclude = [
-        org.springframework.cloud.aws.autoconfigure.context.ContextInstanceDataAutoConfiguration::class,
-        org.springframework.cloud.aws.autoconfigure.context.ContextStackAutoConfiguration::class,
-        org.springframework.cloud.aws.autoconfigure.context.ContextRegionProviderAutoConfiguration::class
-    ]
-)
+@SpringBootApplication
 @ConfigurationPropertiesScan
 @EnableFeignClients
 class UnBoxingBackendApplication
