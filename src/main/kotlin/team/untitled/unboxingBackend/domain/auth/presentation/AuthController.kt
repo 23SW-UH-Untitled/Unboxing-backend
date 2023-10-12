@@ -15,9 +15,9 @@ class AuthController(
 ) {
 
     @PostMapping("/google")
-    fun loginOfGoogle(@RequestParam(name = "code") code: String?): TokenResponseDto {
-        if(code == null) throw UntitledException(400,"No Code")
-        return googleService.execute(code)
+    fun loginOfGoogle(@RequestParam(name = "token") token: String?): TokenResponseDto {
+        if(token == null) throw UntitledException(400,"No token")
+        return googleService.execute(token)
     }
 
     @PutMapping

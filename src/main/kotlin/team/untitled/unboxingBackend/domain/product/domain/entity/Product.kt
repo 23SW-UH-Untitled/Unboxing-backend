@@ -5,8 +5,7 @@ import javax.persistence.*
 @Entity
 class Product (
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_id")
-    val id: Long,
+    val id: Long = 0,
 
     @Column
     val name: String,
@@ -27,14 +26,14 @@ class Product (
     val retailPrice: Int,
 
     @OneToMany(cascade = [CascadeType.ALL])
-    @JoinColumn(name = "product_id")
+    @JoinColumn
     val wholesale: MutableList<Wholesale> = mutableListOf(),
 
     @OneToMany(cascade = [CascadeType.ALL])
-    @JoinColumn(name = "product_id")
-    val reataile: MutableList<Retail> = mutableListOf(),
+    @JoinColumn
+    val retail: MutableList<Retail> = mutableListOf(),
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn
     val user: User
 )

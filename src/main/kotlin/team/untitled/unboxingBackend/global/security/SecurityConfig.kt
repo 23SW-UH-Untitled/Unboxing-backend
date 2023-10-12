@@ -26,6 +26,7 @@ class SecurityConfig(
         http.cors(Customizer.withDefaults())
             .csrf().disable()
             .httpBasic().disable()
+            .formLogin().disable()
             .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()

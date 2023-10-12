@@ -5,12 +5,10 @@ import javax.persistence.*
 
 @Entity
 class Wholesale (
-    @Column(name = "wholesale_id")
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long,
 
-    @Column
-    @Temporal(TemporalType.DATE)
+    @Column(columnDefinition = "DATE")
     val data: LocalDate,
 
     @Column

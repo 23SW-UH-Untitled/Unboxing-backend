@@ -4,6 +4,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.boot.runApplication
 import org.springframework.cloud.openfeign.EnableFeignClients
+import java.util.*
 
 @SpringBootApplication(
     exclude = [
@@ -17,5 +18,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients
 class UnBoxingBackendApplication
 
 fun main(args: Array<String>) {
+    TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"))
     runApplication<UnBoxingBackendApplication>(*args)
 }

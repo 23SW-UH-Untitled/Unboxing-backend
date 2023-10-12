@@ -85,7 +85,7 @@ class ProductService (
             var retailCount = 0
             var wholesaleCount = 0
 
-            it.reataile.filter { re -> re.data == queryProductListReqData.date }
+            it.retail.filter { re -> re.data == queryProductListReqData.date }
                 .map { re ->
                     retailCount+=re.count
                 }
@@ -127,7 +127,7 @@ class ProductService (
         for(i in -1..0) {
             for (j in -1..1) {
                 var dailyCount = 0
-                product.reataile.filter { re -> (re.data.dayOfMonth == (day + j)) && (re.data.month.value == (month + i)) }
+                product.retail.filter { re -> (re.data.dayOfMonth == (day + j)) && (re.data.month.value == (month + i)) }
                     .map { re ->
                         dailyCount += re.count * price
                     }
@@ -141,7 +141,7 @@ class ProductService (
             }
         }
 
-        product.reataile.filter { re -> re.data.month.value == month }
+        product.retail.filter { re -> re.data.month.value == month }
             .map {
                 queryDetailProductResData.monthlyPrice += it.count * price
             }

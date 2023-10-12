@@ -7,7 +7,7 @@ import javax.persistence.*
 @Entity
 class User(
 
-    @Id @Column(name = "user_id")
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 
@@ -20,7 +20,7 @@ class User(
     var profileImage:String,
 
     @OneToMany
-    @JoinColumn(name = "user_id")
+    @JoinColumn
     val Product: MutableList<Product> = mutableListOf()
 ) {
     fun update(name: String, picture: String): User {
