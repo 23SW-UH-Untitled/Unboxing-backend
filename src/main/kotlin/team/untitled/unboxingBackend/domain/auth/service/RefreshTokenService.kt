@@ -17,9 +17,11 @@ class RefreshTokenService(
     private val userFacade: UserFacade
 ) {
     fun execute(token: String): TokenResponseDto {
-
-        val refreshToken = refreshTokenRepo.findById(token)
+    println(token)
+        val refreshToken = refreshTokenRepo.findByRefreshToken(token)
             .orElseThrow{UntitledException(401,"Not Login")}
+        println("df")
+
 
         jwtUtil.getJws(jwtUtil.parseToken(token))
 
@@ -28,7 +30,8 @@ class RefreshTokenService(
         return TokenResponseDto(
             jwtProvider.generateAccessToken(refreshToken.userId,user.authority.toString()),
             refreshToken.refreshToken,
-            refreshToken.expiredAt)
+            refreshToken.expiredAt
+        )
 
     }
 }

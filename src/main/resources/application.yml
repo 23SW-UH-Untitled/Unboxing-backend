@@ -55,7 +55,7 @@ auth:
     header: Authorization
     secret: 41e908e7e898966e8b8847b6b073f10f57c0be3ce1e11410f307c11597dc0287492b71b159678bfefff153262135b767dacc915f21e61eb794bba412f9cb5dc4
     prefix: Bearer
-    access_exp: 1800
+    access_exp: 1800000
     refresh_exp: 2592000
 
 springdoc:
