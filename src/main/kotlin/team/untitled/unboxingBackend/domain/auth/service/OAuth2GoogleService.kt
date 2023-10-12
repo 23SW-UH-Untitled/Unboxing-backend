@@ -24,11 +24,8 @@ class OAuth2GoogleService(
     private val userRepo: UserRepo,
 ) {
 
-    fun execute(code: String): TokenResponseDto {
-        val googleToken: String = googleAuthClient.getGoogleToken(
-            createRequest(code)
-        ).accessToken
-        val userInfo: GoogleInfoResponseDto = googleInfoClient.getUserInfo(googleToken)
+    fun execute(token: String): TokenResponseDto {
+        val userInfo: GoogleInfoResponseDto = googleInfoClient.getUserInfo(token)
         val user: User = saveOrUpdate(userInfo)
         return jwtProvider.generateToken(user.id!!, user.authority.toString())
     }
