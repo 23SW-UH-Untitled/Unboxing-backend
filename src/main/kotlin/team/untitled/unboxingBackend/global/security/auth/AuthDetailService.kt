@@ -9,8 +9,8 @@ import team.untitled.unboxingBackend.domain.user.repo.UserRepo
 class AuthDetailService(
     val userRepo: UserRepo
 ) {
-    fun loadByUsername(username: String):UserDetails{
-        val user:User =  userRepo.findByEmail(username).orElseThrow();
+    fun loadByUsername(id: Long):UserDetails{
+        val user:User =  userRepo.findById(id).orElseThrow();
         return AuthDetails(user)
     }
 }
